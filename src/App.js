@@ -1,79 +1,53 @@
-// src/App.js
 import React from 'react';
-import Header from './components/Header';
-import Achievements from './components/Achievements';
-import Skills from './components/Skills';
+import Hero from './components/Sections/Hero';
+import Projects from './components/Sections/Projects';
+import Education from './components/Sections/Education';
+import Skills from './components/Sections/Skills';
+import Contact from './components/Sections/Contact';
+import Section from './components/Common/Section';
+import Card from './components/UI/Card';
 import { resumeData } from './data/resumeData';
-import './styles/globals.css';
 
 function App() {
   return (
-    <div className="App">
-      <Header data={resumeData.personal} />
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
+      <Hero data={resumeData.personal} />
       
-      <div className="container">
-        <div className="resume-main">
-          <div className="main-content">
-            <Achievements 
-              achievements={resumeData.achievements} 
+      <main className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 space-y-8">
+            <Projects 
+              projects={resumeData.achievements} 
               portfolioUrl={resumeData.personal.portfolio}
             />
-            
-            <section className="card">
-              <h2 className="section-title">Образование</h2>
-              {resumeData.education.map(edu => (
-                <div key={edu.id} className="education-item">
-                  <h3 className="experience-company">{edu.institution}</h3>
-                  <p className="experience-position">{edu.degree}</p>
-                  <p className="text-secondary">{edu.period}</p>
-                  <p className="text-sm mt-1">{edu.details}</p>
-                </div>
-              ))}
-            </section>
+            <Education education={resumeData.education} />
           </div>
           
-          <div className="sidebar">
+          <div className="space-y-8">
             <Skills skills={resumeData.skills} />
+            <Contact data={resumeData.personal} />
             
-            <div className="card">
-              <h2 className="section-title">Языки</h2>
-              {resumeData.languages.map(lang => (
-                <div key={lang.name} className="language-item" style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ fontWeight: '600' }}>{lang.name}</span>
-                  <span style={{ color: 'var(--text-secondary)' }}> — {lang.level}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Блок контактов в sidebar */}
-            <div className="card">
-              <h2 className="section-title">Контакты</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <a 
-                  href={`mailto:${resumeData.personal.email}`}
-                  style={{ color: 'var(--primary)', textDecoration: 'none' }}
-                >
-                  {resumeData.personal.email}
-                </a>
-                <a 
-                  href={`tel:${resumeData.personal.phone}`}
-                  style={{ color: 'var(--primary)', textDecoration: 'none' }}
-                >
-                  {resumeData.personal.phone}
-                </a>
-                <a 
-                  href={`https://${resumeData.personal.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'var(--primary)', textDecoration: 'none' }}
-                >
-                  {resumeData.personal.website}
-                </a>
-              </div>
-            </div>
+            {resumeData.languages && (
+              <Section title="Языки">
+                <Card>
+                  <div className="space-y-3">
+                    {resumeData.languages.map(lang => (
+                      <div key={lang.name} className="flex justify-between items-center">
+                        <span className="font-medium text-gray-900 dark:text-white">
+                          {lang.name}
+                        </span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          {lang.level}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
+              </Section>
+            )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
